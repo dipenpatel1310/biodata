@@ -10,9 +10,9 @@ export default function App() {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const galleryImages = [
-    { src: "/formal.jpg", alt: "Formal Photo" },
-    { src: "/koti.jpg", alt: "Casual Photo 2" },
-    { src: "/black-lonavala.jpg", alt: "Casual Photo 1" },
+    { src: "./formal.jpg", alt: "Formal Photo" },
+    { src: "./koti.jpg", alt: "Casual Photo 2" },
+    { src: "./black-lonavala.jpg", alt: "Casual Photo 1" },
   ];
 
   const biodata = {
@@ -133,7 +133,7 @@ export default function App() {
               </div>
             </div>
             <motion.img
-              src="/profile1.jpg"
+              src="./profile1.jpg"
               alt="profile"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
