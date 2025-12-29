@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState  } from "react";
 import { Download, X } from "lucide-react";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
+import { PDFDownloadLink ,PDFViewer} from "@react-pdf/renderer";
+import BiodataPDF from "./pdf_layout.jsx";
+
 
 export default function App() {
   const [selectedDesktopImage, setSelectedDesktopImage] = useState(0);
@@ -41,52 +42,11 @@ export default function App() {
       "🏠 Duplex at Halvad",
       "🏭 Partnership in Anjani Ceramic, Thangadh",
     ],
-  };
-
-  // PDF Generate
-  const handleDownloadPDF = async () => {
-    try {
-      const element = document.querySelector(".biodata-root");
-      if (!element) return alert("Error while downloading PDF.");
-
-      const clone = element.cloneNode(true);
-      const temp = document.createElement("div");
-
-      temp.style.position = "fixed";
-      temp.style.left = "-9999px";
-      temp.style.background = "#fff";
-      temp.appendChild(clone);
-      document.body.appendChild(temp);
-
-      const canvas = await html2canvas(temp, { scale: 2 });
-      document.body.removeChild(temp);
-
-      const pdf = new jsPDF("p", "mm", "a4");
-      const img = canvas.toDataURL("image/png");
-      const imgW = 210;
-      const imgH = (canvas.height * imgW) / canvas.width;
-
-      let heightLeft = imgH;
-
-      pdf.addImage(img, "PNG", 0, 0, imgW, imgH);
-      heightLeft -= 297;
-
-      while (heightLeft > 0) {
-        pdf.addPage();
-        pdf.addImage(img, "PNG", 0, heightLeft - imgH, imgW, imgH);
-        heightLeft -= 297;
-      }
-
-      pdf.save("biodata.pdf");
-    } catch (err) {
-      console.error(err);
-      alert("Unable to generate PDF.");
-    }
-  };
+  }
 
   return (
     <div className="w-full min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 p-4 sm:p-8 flex justify-center">
-      <div className="w-full max-w-5xl biodata-root">
+      <div className="w-full max-w-5xl biodata-root pdf-capture pdf-safe">
 
         {/* MAIN CARD */}
         <motion.div
@@ -100,7 +60,27 @@ export default function App() {
 
             {/* Left Content */}
             <div className="flex-1">
-              <h1 className="text-4xl sm:text-5xl font-light">{biodata.name}</h1>
+             <div className="flex items-center justify-between gap-4">
+              <h1 className="text-4xl sm:text-5xl font-light">
+                {biodata.name}
+              </h1>
+
+              <PDFDownloadLink
+                document={<BiodataPDF biodata={biodata} />}
+                fileName="Dipen-Biodata.pdf"
+                className="px-3 py-2 border rounded-md flex gap-2 items-center whitespace-nowrap"
+              >
+                {({ loading }) =>
+                  loading ? "Generating PDF..." : (
+                    <>
+                      <Download size={14} />
+                      Download
+                    </>
+                  )
+                }
+              </PDFDownloadLink>
+            </div>
+
               <p className="text-gray-600 mb-6">Software Engineer</p>
 
               {/* Mobile Image */}
@@ -198,11 +178,10 @@ export default function App() {
                     key={idx}
                     whileHover={{ scale: 1.05 }}
                     onClick={() => setSelectedDesktopImage(idx)}
-                    className={`border-2 rounded-lg overflow-hidden ${
-                      selectedDesktopImage === idx
+                    className={`border-2 rounded-lg overflow-hidden ${selectedDesktopImage === idx
                         ? "border-amber-700 shadow-md"
                         : "border-gray-200"
-                    }`}
+                      }`}
                   >
                     <img src={img.src} className="w-20 h-20 object-cover" />
                   </motion.button>
@@ -234,15 +213,17 @@ export default function App() {
             </div>
           </div>
 
-          {/* Footer */}
-          <footer className="py-6 px-6 text-center text-sm text-gray-600 border-t bg-gray-50">
-            <button
-              onClick={handleDownloadPDF}
-              className="px-3 py-1.5 border rounded-md flex items-center gap-2 mx-auto"
+          {/* GOOGLE DRIVE LINK */}
+          <div className="m-6 flex items-center gap-2 text-m">
+            <a
+              href="https://drive.google.com/drive/folders/1dK9czUu06W5V1DqlhZhRLMLNPzeEhejO"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="!text-blue-700 font-semibold underline"
             >
-              <Download size={14} /> Download
-            </button>
-          </footer>
+              View more photos on Google Drive
+            </a>
+          </div>
 
         </motion.div>
       </div>

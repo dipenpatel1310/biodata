@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+/* Fix Tailwind OKLCH colors for html2canvas */
+.pdf-safe * {
+  color: rgb(0 0 0 / 1) !important;
+  outline-color: rgb(0 0 0 / 1) !important;
+}
+
+.pdf-safe {
+  background: #ffffff !important;
+}
+
+.pdf-safe img {
+  background: #ffffff !important;
+}
+
