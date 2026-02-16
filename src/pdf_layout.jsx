@@ -123,7 +123,7 @@ export default function BiodataPDF({ biodata }) {
           }}
         >
           {/* EDUCATION */}
-          <View style={{ width: "48%" }}>
+          <View style={{ width: "44%" }}>
             <Text style={styles.sectionTitle}>Education</Text>
             <Text style={styles.row}>
               {biodata.education}
@@ -131,10 +131,15 @@ export default function BiodataPDF({ biodata }) {
           </View>
 
           {/* PROFESSIONAL */}
-          <View style={{ width: "48%" }}>
-            <Text style={styles.sectionTitle}>Occupation</Text>
+          <View style={{ width: "52%" }}>
+            <Text style={styles.sectionTitle}>Professional</Text>
             <Text style={styles.row}>
+              <Text style={styles.label}>Occupation: </Text>
               {biodata.company}
+            </Text>
+            <Text style={styles.row}>
+              <Text style={styles.label}>Salary: </Text>
+              {biodata.salary}
             </Text>
           </View>
         </View>

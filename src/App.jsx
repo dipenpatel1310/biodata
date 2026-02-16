@@ -42,6 +42,7 @@ export default function App() {
       "🏠 Duplex at Halvad",
       "🏭 Partnership in Anjani Ceramic, Thangadh",
     ],
+    salary: "10.2 Lakhs Per Annum",
   }
 
   return (
@@ -121,16 +122,17 @@ export default function App() {
           </div>
 
           {/* BODY SECTIONS */}
-          <div className="p-6 sm:p-10 space-y-8">
+            <div className="p-6 sm:p-10 space-y-8">
 
             {/* Education + Job */}
-            <div className="grid sm:grid-cols-2 gap-8">
-              <ElegantSection icon="🎓" title="Education">
+            <div className="grid sm:grid-cols-2 gap-8 items-stretch">
+              <ElegantSection icon="🎓" title="Education" compact>
                 <InfoRow label="Qualification" value={biodata.education} />
               </ElegantSection>
 
-              <ElegantSection icon="💼" title="Professional">
-                <InfoRow label="Occupation" value={biodata.company} />
+              <ElegantSection icon="💼" title="Professional" compact>
+                <InfoRow label="Occupation" value={biodata.company} noBorder />
+                <InfoRow label="Salary" value={biodata.salary} />
               </ElegantSection>
             </div>
 
@@ -262,18 +264,18 @@ export default function App() {
 
 /* ---------------------------------------- COMPONENTS ---------------------------------------- */
 
-const ElegantSection = ({ title, icon, children }) => (
-  <motion.div className="border-l-2 border-amber-700 pl-6">
+const ElegantSection = ({ title, icon, children, compact = false }) => (
+  <motion.div className="border-l-2 border-amber-700 pl-6 h-full">
     <div className="flex items-center gap-3 mb-4">
       <div className="text-2xl">{icon}</div>
       <h2 className="text-xl font-semibold">{title}</h2>
     </div>
-    <div className="space-y-3">{children}</div>
+    <div className={compact ? "space-y-2" : "space-y-3"}>{children}</div>
   </motion.div>
 );
 
-const InfoRow = ({ label, value }) => (
-  <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 pb-3 border-b last:border-0">
+const InfoRow = ({ label, value, noBorder = false }) => (
+  <div className={`flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 pb-3 ${noBorder ? "" : "border-b"} last:border-0`}>
     <span className="font-semibold text-gray-700 min-w-max uppercase text-sm">
       {label}
     </span>
